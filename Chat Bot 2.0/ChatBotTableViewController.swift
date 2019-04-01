@@ -10,19 +10,21 @@ import UIKit
 
 class ChatBotTableViewController: UITableViewController {
     
-    var answers: [String] = [
-        "9:00 География",
-        "10:00 География",
-        "10:50 Информатика",
-    ]
+    var answers: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateUI()
+    }
+    
+    func updateUI() {
+        tableView.reloadData()
         let alert = UIAlertController(title: "Вопрос", message: "Задайте вопрос", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
             guard let text = alert.textFields?.first?.text else { return }
-            print(text)
+            guard !text.isEmpty else { return }
+            self.answers.append(text)
+            self.updateUI()
         }))
         alert.addTextField(configurationHandler: nil)
         present(alert, animated: true, completion: nil)
